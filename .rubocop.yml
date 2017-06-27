@@ -21,3 +21,7 @@ Lint/NonLocalExitFromIterator:
 Style/RegexpLiteral:
   EnforcedStyle: 'slashes'
   AllowInnerSlashes: true
+  
+Style/FileName:
+  Exclude:
+    - 'lib/business_time-multical.rb'

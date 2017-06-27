@@ -1,8 +1,9 @@
 module BusinessTimeMultical
+  # A hash that allows to cache "union" of values
   class CalendarHash < Hash
     def [](key)
       return SortedSet.new if key.nil?
-      return self[key.flatten.sort.join] if Array === key
+      return self[key.flatten.sort.join] if key.is_a?(Array)
 
       currencies = key.scan(/[\w™]{3}/).select(&method(:key?))
       self[key] = values_at(*currencies).inject(&:+) || SortedSet.new
@@ -13,15 +14,11 @@ module BusinessTimeMultical
     end
   end
 
+  # Support loading currency holidays in BusinessTime
   module Config
     def load_holidays(holidays, container: config[:holidays], append: false)
       container.replace(SortedSet.new) unless append
-      container.merge(holidays.map do |holiday|
-        Date === holiday ? holiday : begin
-          ActiveSupport::Deprecation.warn("Provide holidays as `Date` objects instead of `#{holiday.class.name}`. I parsed that thing as #{holiday.to_date.inspect}", caller.reject { |c| c =~ /#{__FILE__}/ })
-          holiday.to_date
-        end
-      end)
+      container.merge(holidays.map(&method(:parse_date)))
     end
 
     def load_currency_holidays(hash, append: false)
@@ -29,8 +26,27 @@ module BusinessTimeMultical
       hash.each_with_object({}) do |(currency, holidays), memo|
         config[:currency_holidays].clean_cached(currency)
         container = config[:currency_holidays][currency]
-        memo[currency] = load_holidays(holidays, container: container, append: append)
+        memo[currency] = \
+          load_holidays(holidays, container: container, append: append)
       end
+    end
+
+    private
+
+    def parse_date(date)
+      if date.is_a?(Date)
+        date
+      else
+        msg = <<-EOF.squish
+        Provide holidays as `Date` objects instead of `#{holiday.class.name}`. I parsed that thing as #{holiday.to_date.inspect}"
+        EOF
+        warn(msg, caller.reject { |c| c =~ /#{__FILE__}/ })
+        date.to_date
+      end
+    end
+
+    def warn(msg, stack)
+      ActiveSupport::Deprecation.warn(msg, stack)
     end
   end
 end
@@ -40,8 +56,7 @@ BusinessTime::Config.class_eval do
   threadsafe_cattr_accessor :core_currencies
 end
 
-BusinessTime::Config::DEFAULT_CONFIG[:currency_holidays] = BusinessTimeMultical::CalendarHash.new
+BusinessTime::Config::DEFAULT_CONFIG[:currency_holidays] = \
+  BusinessTimeMultical::CalendarHash.new
 
 BusinessTime::Config.extend(BusinessTimeMultical::Config)
-
-puts 'Loaded business_time_multical/config.rb'

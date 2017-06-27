@@ -19,4 +19,5 @@ Time.prepend BusinessTimeMultical::TimeExtensions
 Time.extend BusinessTimeMultical::TimeExtensions::ClassMethods
 
 ActiveSupport::TimeWithZone.prepend BusinessTimeMultical::TimeExtensions
-ActiveSupport::TimeWithZone.extend BusinessTimeMultical::TimeExtensions::ClassMethods
+ActiveSupport::TimeWithZone.extend \
+  BusinessTimeMultical::TimeExtensions::ClassMethods

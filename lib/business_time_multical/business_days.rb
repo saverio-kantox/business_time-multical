@@ -1,6 +1,7 @@
 require 'business_time/business_days'
 
 module BusinessTimeMultical
+  # Support calendars to BusinessDays class
   module BusinessDays
     def initialize(days, *calendars)
       super(days)
