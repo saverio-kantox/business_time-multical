@@ -1,9 +1,9 @@
-inherit_from: .rubocop_todo.yml
-
 AllCops:
   Excludes:
     - '*/cache/**'
-  RunRailsCops: true
+
+Rails:
+  Enabled: true
 
 Rails/FindBy:
   Description: 'Prefer find_by over where.first.'

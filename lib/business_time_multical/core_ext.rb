@@ -12,7 +12,7 @@ class Integer
   def business_days(*calendars)
     BusinessTime::BusinessDays.new(self, *calendars)
   end
-  alias_method :business_day, :business_days
+  alias business_day business_days
 end
 
 Time.prepend BusinessTimeMultical::TimeExtensions

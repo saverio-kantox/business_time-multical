@@ -9,7 +9,7 @@ module BusinessTimeMultical
     end
 
     def clean_cached(currency)
-      delete_if { |k, v| k.include?(currency) && k != currency }
+      delete_if { |k, _v| k.include?(currency) && k != currency }
     end
   end
 
@@ -44,4 +44,4 @@ BusinessTime::Config::DEFAULT_CONFIG[:currency_holidays] = BusinessTimeMultical:
 
 BusinessTime::Config.extend(BusinessTimeMultical::Config)
 
-puts "Loaded business_time_multical/config.rb"
+puts 'Loaded business_time_multical/config.rb'
