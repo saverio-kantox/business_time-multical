@@ -5,10 +5,10 @@ require 'rake/testtask'
 Rake::TestTask.new(:test) do |test|
   test.verbose = true
 end
-task :default => :test
+task default: :test
 
 task :cov do
-  ENV["COV"] = "1"
+  ENV['COV'] = '1'
   Rake::Task[:test].invoke
 end
 

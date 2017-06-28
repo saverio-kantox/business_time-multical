@@ -5,11 +5,12 @@ require 'business_time_multical/core_ext'
 
 # Support multicalendar holiday calculations
 module BusinessTimeMultical
-  def self.with?(calendars, &block)
-    return block.call if calendars.empty?
-    defaults = BusinessTime::Config.core_currencies
-    holidays = BusinessTime::Config.currency_holidays[calendars] +
-               BusinessTime::Config.currency_holidays[defaults]
-    BusinessTime::Config.with(holidays: holidays) { block.call }
+  def self.with(names)
+    return unless block_given?
+    return yield if names.empty?
+    holidays = \
+      BusinessTime::Config.calendars[names] +
+      BusinessTime::Config.calendars[BusinessTime::Config.core_calendars]
+    BusinessTime::Config.with(holidays: holidays) { yield }
   end
 end

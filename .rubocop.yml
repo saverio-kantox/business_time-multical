@@ -1,5 +1,5 @@
 AllCops:
-  Excludes:
+  Exclude:
     - '*/cache/**'
 
 Rails:
@@ -25,3 +25,7 @@ Style/RegexpLiteral:
 Style/FileName:
   Exclude:
     - 'lib/business_time-multical.rb'
+    
+Metrics/BlockLength:
+  ExcludedMethods:
+    - 'describe'

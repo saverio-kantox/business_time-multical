@@ -9,8 +9,8 @@ Date.prepend BusinessTimeMultical::DateExtensions
 #  3.business_days('EUR', 'USD').after(some_date)
 #  3.business_days(['EUR', 'USD']).after(some_date)
 class Integer
-  def business_days(*calendars)
-    BusinessTime::BusinessDays.new(self, *calendars)
+  def business_days(*calendar_names)
+    BusinessTime::BusinessDays.new(self, *calendar_names)
   end
   alias business_day business_days
 end
