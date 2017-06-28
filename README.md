@@ -1,4 +1,5 @@
-= `business_time-multical`
+`business_time-multical`
+========================
 
 Support several named calendars on all the `business_time` API.
 
@@ -21,7 +22,8 @@ string:
 The holidays that are considered when requesting multiple calendars like in
 the above examples, are the union of each holiday calendar.
 
-== Loading calendars
+Loading calendars
+-----------------
 
 BusinessTime::Config.load_calendars(
   'EUR' => [
@@ -41,7 +43,8 @@ A list of "default" calendars that are always applied can be set with:
 BusinessTime::Config.default_calendars = ["AAA", "BBB"]
 ```
 
-== Future
+Future
+------
 
 It would be better to split the calendar selection from the other methods, so
 at some point we should migrate to
@@ -49,3 +52,14 @@ at some point we should migrate to
 ```ruby
 BusinessTime.with_calendars('EUR', 'USD') { 2.business_days.from_now }
 ```
+
+
+TODO
+----
+
+* Automatically run all tests from the `business_time` gem so we are sure we
+  are not breaking anything
+
+* Provide a better strategy to parse the requested calendars (maybe stop
+  supporting concatenated calendar names)
+
