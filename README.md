@@ -25,6 +25,7 @@ the above examples, are the union of each holiday calendar.
 Loading calendars
 -----------------
 
+```ruby
 BusinessTime::Config.load_calendars(
   'EUR' => [
     '2015-01-01', '2015-01-06', '2015-04-03', '2015-04-06',
@@ -34,6 +35,7 @@ BusinessTime::Config.load_calendars(
   ],
   'JPY' => ['2015-01-01']
 )
+```
 
 Other strategies to parse the requested set of calendars can be put in place.
 
